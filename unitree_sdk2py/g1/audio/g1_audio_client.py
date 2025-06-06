@@ -25,15 +25,13 @@ class AudioClient(Client):
         self._RegistApi(ROBOT_API_ID_AUDIO_SET_RGB_LED, 0)
 
     ## API Call ##
-    def TtsMaker(self, text: str, speaker_id: int, noReply: bool = False):
+    def TtsMaker(self, text: str, speaker_id: int):
         self.tts_index += self.tts_index
         p = {}
         p["index"] = self.tts_index
         p["text"] = text
         p["speaker_id"] = speaker_id
         parameter = json.dumps(p)
-        if noReply:
-            return self._CallNoReply(ROBOT_API_ID_AUDIO_TTS, parameter)
         code, data = self._Call(ROBOT_API_ID_AUDIO_TTS, parameter)
         return code
 
@@ -46,23 +44,27 @@ class AudioClient(Client):
         else:
             return code, None
 
-    def SetVolume(self, volume: int, noReply: bool = False):
+    def SetVolume(self, volume: int):
         p = {}
         p["volume"] = volume
         # p["name"] = 'volume'
         parameter = json.dumps(p)
-        if noReply:
-            return self._CallNoReply(ROBOT_API_ID_AUDIO_SET_VOLUME, parameter)
         code, data = self._Call(ROBOT_API_ID_AUDIO_SET_VOLUME, parameter)
         return code
 
-    def LedControl(self, R: int, G: int, B: int, noReply: bool = False):
+    def LedControl(self, R: int, G: int, B: int):
         p = {}
         p["R"] = R
         p["G"] = G
         p["B"] = B
         parameter = json.dumps(p)
-        if noReply:
-            return self._CallNoReply(ROBOT_API_ID_AUDIO_SET_RGB_LED, parameter)
         code, data = self._Call(ROBOT_API_ID_AUDIO_SET_RGB_LED, parameter)
         return code
+
+    def LedControlNoReply(self, R: int, G: int, B: int):
+        p = {}
+        p["R"] = R
+        p["G"] = G
+        p["B"] = B
+        parameter = json.dumps(p)
+        return self._CallNoReply(ROBOT_API_ID_AUDIO_SET_RGB_LED, parameter)
