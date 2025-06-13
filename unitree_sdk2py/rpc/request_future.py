@@ -24,7 +24,7 @@ class RequestFutureQueue:
     def __init__(self):
         self.__data = {}
         self.__lock = Lock()
-        
+
     def Set(self, requestId: int, future: RequestFuture):
         if future is None:
             return False
@@ -36,11 +36,9 @@ class RequestFutureQueue:
         future = None
         with self.__lock:
             future = self.__data.get(requestId)
-            if future is not None:
-                self.__data.pop(requestId)
         return future
 
     def Remove(self, requestId: int):
         with self.__lock:
-            if id in self.__data:
+            if requestId in self.__data:
                 self.__data.pop(requestId)
